@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <Windows.h>
 
 std::vector<int> getCharacterCodes(std::ifstream& inStream) {
     std::vector<int> characterCodes;
@@ -40,13 +41,16 @@ int main() {
     }
 
     std::vector<int> characterCodes = getCharacterCodes(inStream);
-    std::ofstream outStream;
+    // std::ofstream outStream;
 
-    outStream.open("tests/test_text.txt", std::ios::app);
+    // outStream.open("tests/test_text.txt", std::ios::app);
     dos2Unix(characterCodes);
-    outStream << std::endl;
-    for(int num : characterCodes)
-        outStream << num << std::endl;
+    // outStream << std::endl;
+    for(int num : characterCodes) {
+        // outStream << num << std::endl;
+        std::cout << "Frequency: " << num << std::endl;
+        Beep(num, 500);
+    }
     
     return 0;
 }
