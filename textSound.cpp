@@ -2,6 +2,20 @@
 #include <iostream>
 #include <vector>
 
+std::vector<int> getCharacterCodes(std::ifstream& inStream) {
+    std::vector<int> characterCodes;
+    char current;
+    int currentNum;
+    while(!inStream.eof()) {
+        current = inStream.get();
+        if(current != EOF) {
+            currentNum = (int)current;
+            characterCodes.push_back(currentNum);
+        }
+    }
+    return characterCodes;
+}
+
 // Convert CRLF line endings to LF
 void dos2Unix(std::vector<int>& fileContents) {
     for(int i = 0; i < fileContents.size(); i++) {
@@ -18,7 +32,6 @@ void dos2Unix(std::vector<int>& fileContents) {
 
 int main() {
     std::ifstream inStream("tests/test_text.txt");
-    std::ofstream outStream;
 
     if(!inStream.good()) {
         inStream.close();
@@ -26,19 +39,10 @@ int main() {
         return 1;
     }
 
+    std::vector<int> characterCodes = getCharacterCodes(inStream);
+    std::ofstream outStream;
+
     outStream.open("tests/test_text.txt", std::ios::app);
-
-    std::vector<int> characterCodes;
-    char current;
-    int currentNum;
-    while(!inStream.eof()) {
-        current = inStream.get();
-        if(current != EOF) {
-            currentNum = (int)current;
-            characterCodes.push_back(currentNum);
-        }
-    }
-
     dos2Unix(characterCodes);
     outStream << std::endl;
     for(int num : characterCodes)
